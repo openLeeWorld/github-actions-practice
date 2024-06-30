@@ -1,0 +1,35 @@
+name: Docker Test # 워크플로우 이름
+
+on: # main branch에 push할때만 실행
+  push:
+    branches:
+      - main
+
+jobs: # 수행하고자 하는 작업 
+  build: # 작업 이름
+    runs-on: ubuntu-latest # 실행 환경
+
+    steps: # 실행 단계
+    - name: Checkout code # 실행 단계의 이름
+      uses: actions/checkout@v3 # 사용할 액션@버전
+
+    - name: Set up Python # 실행 단계의 이름
+      uses: actions/setup-python@v3 # 사용할 액션
+      with:
+        python-version: '3.11' # 파이썬 버전
+    
+    - name: Build Flask Docker image # 실행 단계의 이름
+      run: docker image build . -t myflask-test 
+    
+    - name: Run Flask Docker container # 실행 단계의 이름
+      run: docker container run -d --name myflask-ac -p 8001:8001 myflask-test
+    
+    - name: Test Flask app # 실행 단계의 이름
+      run: | # 여러줄의 명령어 실행
+        sleep 10
+        curl -X GET http://localhost:8001 
+    
+    - name: Stop and remove Docker container # 실행 단계의 이름
+      run: |
+        docker container stop myflask-ac
+        docker container rm myflask-ac   
