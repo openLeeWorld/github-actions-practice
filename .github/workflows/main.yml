@@ -1,10 +1,10 @@
-name: Helloworld
+name: Helloworld # 우크플로우 이름
 
-on: [push]
-
-jobs: 
-  echo:
-    runs-on: ubuntu-latest
-    steps:
-    - name: hello
-      run: echo "Hello, GitHub Actions!"
+on: [push] # 실행 조건 명령: push
+ 
+jobs: # 수행하고자 하는 작업 
+  echo: # 작업 이름
+    runs-on: ubuntu-latest # 실행 환경
+    steps: # 실행 단계
+    - name: hello # 실행 단계의 이름
+      run: echo "Hello, GitHub Actions!" # 명령
